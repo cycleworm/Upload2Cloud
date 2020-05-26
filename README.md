@@ -22,3 +22,9 @@ As soon as the upload is done the link will be shown in the window. With copy li
 Which Open Link your default browser will popup and open the link in a new tab.
 
 ![Image of Shortcut Entry](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/app_finished.png)
+
+------------------------------------------
+
+If you do not want to run the installer you can also execute just the [sendToSkynet.py](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/sendToSkynet.py). Simply download just he [sendToSkynet.py](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/sendToSkynet.py) and run it in your command line. (python 3 has to be installed)
+
+python sendToSkynet.py "full path to file which you want to upload"
