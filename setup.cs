@@ -10,8 +10,9 @@ class Script
                           new Dir(@"%ProgramFiles%\\SkynetApplications\\SendToSkynet",
                               new WixSharp.File("dist\\upload.ico"),
                               new WixSharp.File("dist\\sendToSkynet.exe")),
-                              new Dir(@"%Desktop%",
-                                new ExeFileShortcut("Upload to Skynet", Path.Combine("[INSTALLDIR]", "sendToSkynet.exe"), arguments: "") { WorkingDirectory = "[INSTALLDIR]" })
+                              //new Dir(@"%Desktop%",
+                              new Dir(@"%AppData%/Microsoft/Windows/SendTo",
+                                new ExeFileShortcut("- Upload to Skynet", Path.Combine("[INSTALLDIR]", "sendToSkynet.exe"), arguments: "") { WorkingDirectory = "[INSTALLDIR]" })
                               );
 
 

@@ -3,10 +3,17 @@ import sys
 import tkinter as tk
 import pyperclip
 import webbrowser
-
-
+import threading
 
 from siaskynet import Skynet
+
+
+def upload():
+    upload.skylink = Skynet.upload_file(str(sys.argv[1]))
+    setSkylink(upload.skylink.replace("sia://", "https://www.siasky.net/"))
+    btnOpenLink['state'] = tk.NORMAL
+    btnCopyLink['state'] = tk.NORMAL
+
 
 def resource_path(relative_path):
 #""" Get absolute path to resource, works for dev and for PyInstaller """
@@ -14,11 +21,11 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 def openLink():
-    url = skylink.replace("sia://","https://www.siasky.net/")
+    url = upload.skylink.replace("sia://","https://www.siasky.net/")
     webbrowser.open(url, new=2)
 
 def copyLink():
-    pyperclip.copy(skylink.replace("sia://","https://www.siasky.net/"))
+    pyperclip.copy(upload.skylink.replace("sia://","https://www.siasky.net/"))
     #spam = pyperclip.paste()
 
 def setSkylink(text):
@@ -49,8 +56,12 @@ tk.Label(root, text="Skylink:", bg=skynetColor, fg="white", font=('helvetica', 1
 skylinkEntry = tk.Entry(root, width=66, font=('helvetica', 15))
 skylinkEntry.pack(fill="x", padx=10, pady=10, side="left")
 
-btnOpenLink = tk.Button(root, text="Open Link", command=openLink).pack(padx=0,side="left")
-btnCopyLink = tk.Button(root, text="Copy Link", command=copyLink).pack(padx=10, side="left")
+btnOpenLink = tk.Button(root, text="Open Link", state=tk.DISABLED,  command=openLink)
+btnOpenLink.pack(padx=0,side="left")
+btnCopyLink = tk.Button(root, text="Copy Link", state=tk.DISABLED, command=copyLink)
+btnCopyLink.pack(padx=10, side="left")
+
+
 
 setSkylink("file gets uploaded...")
 
@@ -59,8 +70,13 @@ root.update()
 
 # upload
 #print("Uploading", str(sys.argv[1]))
-skylink = Skynet.upload_file(str(sys.argv[1]))
-setSkylink(skylink.replace("sia://","https://www.siasky.net/"))
+
+thread1 = threading.Thread(target = upload)
+thread1.start()
+
+#skylink = Skynet.upload_file(str(sys.argv[1]))
+#setSkylink(skylink.replace("sia://","https://www.siasky.net/"))
+
 #print("Upload successful, skylink: " + skylink)
 #os.system("echo " + skylink + " | clip")
 #os.system("start https://siasky.net/" + skylink.replace("sia://", ""))
