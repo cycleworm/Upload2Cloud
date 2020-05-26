@@ -15,22 +15,19 @@ def upload():
     btnCopyLink['state'] = tk.NORMAL
 
 
-def resource_path(relative_path):
-#""" Get absolute path to resource, works for dev and for PyInstaller """
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
-
 def openLink():
-    url = upload.skylink.replace("sia://","https://www.siasky.net/")
+    url = upload.skylink.replace("sia://", "https://www.siasky.net/")
     webbrowser.open(url, new=2)
 
+
 def copyLink():
-    pyperclip.copy(upload.skylink.replace("sia://","https://www.siasky.net/"))
-    #spam = pyperclip.paste()
+    pyperclip.copy(upload.skylink.replace("sia://", "https://www.siasky.net/"))
+
 
 def setSkylink(text):
     skylinkEntry.delete(0, "end")
     skylinkEntry.insert(0, text)
+
 
 # determine if application is a script file or frozen exe
 if getattr(sys, 'frozen', False):
@@ -38,54 +35,38 @@ if getattr(sys, 'frozen', False):
 elif __file__:
     application_path = os.path.dirname(__file__)
 
+# Configure Window
 icon_path = os.path.join(application_path, "upload.ico")
-
-root= tk.Tk()
+root = tk.Tk()
 root.title("Send to Skynet V 0.0.1")
-root.minsize(1000,60)
+root.minsize(1000, 60)
 root.iconbitmap(icon_path)
-
+root.resizable(0, 0)
 skynetColor = '#57b560'  # or use hex if you prefer
 root.configure(bg=skynetColor)
 
-#canvas1 = tk.Canvas(root, width = 800, height = 100)
-#canvas1.pack()
-#canvas1.create_window(150, 200, window=label2)
-
-tk.Label(root, text="Skylink:", bg=skynetColor, fg="white", font=('helvetica', 16, 'bold')).pack(padx=(10,0), pady=10, side="left")
+# Add Elements to GUI
+tk.Label(root, text="Skylink:", bg=skynetColor, fg="white", font=('helvetica', 16, 'bold')).pack(padx=(10, 0), pady=10, side="left")
 skylinkEntry = tk.Entry(root, width=66, font=('helvetica', 15))
 skylinkEntry.pack(fill="x", padx=10, pady=10, side="left")
+setSkylink("uploading file...")
 
-btnOpenLink = tk.Button(root, text="Open Link", state=tk.DISABLED,  command=openLink)
-btnOpenLink.pack(padx=0,side="left")
+# Disable Buttons before as long as upload is not finished
+btnOpenLink = tk.Button(root, text="Open Link", state=tk.DISABLED, command=openLink)
+btnOpenLink.pack(padx=0, side="left")
 btnCopyLink = tk.Button(root, text="Copy Link", state=tk.DISABLED, command=copyLink)
 btnCopyLink.pack(padx=10, side="left")
 
-
-
-setSkylink("file gets uploaded...")
+# Put window in center of screen
+positionRight = int(root.winfo_screenwidth() / 2 - 1000 / 2)
+positionDown = int(root.winfo_screenheight() / 2 - 100 / 2)
+root.geometry("+{}+{}".format(positionRight, positionDown))
 
 root.update_idletasks()
 root.update()
 
-# upload
-#print("Uploading", str(sys.argv[1]))
-
-thread1 = threading.Thread(target = upload)
-thread1.start()
-
-#skylink = Skynet.upload_file(str(sys.argv[1]))
-#setSkylink(skylink.replace("sia://","https://www.siasky.net/"))
-
-#print("Upload successful, skylink: " + skylink)
-#os.system("echo " + skylink + " | clip")
-#os.system("start https://siasky.net/" + skylink.replace("sia://", ""))
-
+# Start upload in separate thread
+thread = threading.Thread(target=upload)
+thread.start()
 root.mainloop()
 
-
-
-#while True:
-   # ball.draw()
-  #  tk.update_idletasks()
- #   tk.update()
