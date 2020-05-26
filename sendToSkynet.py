@@ -2,6 +2,9 @@ import os
 import sys
 import tkinter as tk
 import pyperclip
+import webbrowser
+
+
 
 from siaskynet import Skynet
 
@@ -11,8 +14,8 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 def openLink():
-    #os.system("echo " + skylink + " | clip")
-    os.system("start https://siasky.net/" + skylink.replace("sia://", ""))
+    url = skylink.replace("sia://","https://www.siasky.net/")
+    webbrowser.open(url, new=2)
 
 def copyLink():
     pyperclip.copy(skylink.replace("sia://","https://www.siasky.net/"))
