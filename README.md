@@ -3,7 +3,7 @@ powered by [Sia Skynet](https://www.siasky.net)
 
 ### **Sia Skynet SendTo** is also available on the [Skynet Appstore](https://skynethub.io/_B3VrECGOHPEAFknVQwj_vWsyaX_8iIRuB_TL09cuj9uZQ/index.html#/apps/utilities).
 
-### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AACYJQ9FG0HgsyEtGOWAYS6TpzCpLNK7DTKmRgaOySaCVQ)
+### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AAByGIpBvUZ1G-KzJBtoVBps7NisXpI6_-5O0tkUEzMgjA)
 
 ### Demo Video
 [Skylink Video URL](https:/)
