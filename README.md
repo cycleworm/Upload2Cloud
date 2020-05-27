@@ -1,9 +1,9 @@
 # Sia Skynet SendTo 
 powered by [Sia Skynet](https://www.siasky.net)
 
-### **Sia Skynet SendTo** is also available on the [Skynet Appstore](https://).
+### **Sia Skynet SendTo** is also available on the [Skynet Appstore](https://skynethub.io/_B3VrECGOHPEAFknVQwj_vWsyaX_8iIRuB_TL09cuj9uZQ/index.html#/apps/utilities).
 
-### This is the direct download link to the latest full installer -> [Link](https://)
+### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AACYJQ9FG0HgsyEtGOWAYS6TpzCpLNK7DTKmRgaOySaCVQ)
 
 #### Description:
 This installer adds the executable which is built from a python script to your program files directory which is capable of uploading files to skynet.
