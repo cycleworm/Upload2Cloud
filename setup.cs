@@ -16,10 +16,16 @@ class Script
                                 new ExeFileShortcut("- Upload to Skynet", Path.Combine("[INSTALLDIR]", "sendToSkynet.exe"), arguments: "") { WorkingDirectory = "[INSTALLDIR]" })
                               );
 
+
+
         project.GUID = new Guid("6f330b47-2577-43ad-9095-1761ba25889d");
         project.ControlPanelInfo.ProductIcon = "upload.ico";
         project.ControlPanelInfo.Manufacturer = "WiNXuP";
+        project.LicenceFile = @"Licence.rtf";
+
 
         Compiler.BuildMsi(project);
     }
+
 }
+
