@@ -16,7 +16,7 @@ This installer adds the executable which is built from a python script to your p
 ![Image of Installed Software](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/installed_programs.png)
 
 It automatically adds a shortcut to your windows explorer in the **send to** section.
-![Image of Shortcut Entry](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/sendTo_shortcut.png)
+![Image of Shortcut Entry](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/sendToshortcut.png)
 
 Which a right click in the windows explorer on any file you can choose -> **send to** --> **- Upload to Skynet** 
 Then the application will start in a small window. 
