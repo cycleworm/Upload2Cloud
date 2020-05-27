@@ -6,7 +6,9 @@ powered by [Sia Skynet](https://www.siasky.net)
 ### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AAByGIpBvUZ1G-KzJBtoVBps7NisXpI6_-5O0tkUEzMgjA)
 
 ### Demo Video
-[Skylink Video URL](https:/)
+[Skylink Video URL](https://siasky.net/fAQPMle28jWX6fTY35oL6pzd-3WqONSJY5O5I83ENUjWgw)
+
+![Gif of Demo Video](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/SiaSkynetSendTo.gif)
 
 #### Description:
 This installer adds the executable which is built from a python script to your program files directory which is capable of uploading files to skynet.
