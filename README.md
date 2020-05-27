@@ -14,12 +14,12 @@ It automatically adds a shortcut to your windows explorer in the **send to** sec
 ![Image of Shortcut Entry](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/sendTo_shortcut.png)
 
 Which a right click in the windows explorer on any file you can choose -> **send to** --> **- Upload to Skynet** 
-Then the applicatio will start i a small window. 
+Then the application will start in a small window. 
 
 ![Image of Shortcut Entry](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/app_start.png)
 
 As soon as the upload is done the link will be shown in the window. With copy link you can copy the link into your clipboard.
-Which Open Link your default browser will popup and open the link in a new tab.
+With Open Link your default browser will popup and open the link in a new tab.
 
 ![Image of Shortcut Entry](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/docu/app_finished.png)
 
