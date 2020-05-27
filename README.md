@@ -7,7 +7,6 @@ powered by [Sia Skynet](https://www.siasky.net)
 
 ### Demo Video
 [Skylink Video URL](https:/)
-![Gif of Demo Video](https:/)
 
 #### Description:
 This installer adds the executable which is built from a python script to your program files directory which is capable of uploading files to skynet.
