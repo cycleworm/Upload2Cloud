@@ -5,6 +5,10 @@ powered by [Sia Skynet](https://www.siasky.net)
 
 ### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AACYJQ9FG0HgsyEtGOWAYS6TpzCpLNK7DTKmRgaOySaCVQ)
 
+### Demo Video
+[Skylink Video URL](https:/)
+![Gif of Demo Video](https:/)
+
 #### Description:
 This installer adds the executable which is built from a python script to your program files directory which is capable of uploading files to skynet.
 
