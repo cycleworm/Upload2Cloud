@@ -31,4 +31,4 @@ With Open Link your default browser will popup and open the link in a new tab.
 
 If you do not want to run the installer you can also execute just the [sendToSkynet.py](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/sendToSkynet.py). Simply download just he [sendToSkynet.py](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/sendToSkynet.py) and run it in your command line. (python 3 has to be installed)
 
-python sendToSkynet.py "full path to file which you want to upload"
+`python sendToSkynet.py "full path to file which you want to upload"`
