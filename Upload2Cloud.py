@@ -26,17 +26,14 @@ PortalList = [
 
 def upload():
     client = skynet.SkynetClient()
-    #upload.skylink = client.upload_file(str(sys.argv[1]),onUploadProgress())
-    upload.skylink = client.upload_file_with_chunks(str(sys.argv[1]),onUploadProgress())
+
+    print(str(sys.argv))
+    upload.skylink = client.upload_file(str(sys.argv[1]))
 
     setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
     btnOpenLink['state'] = tk.NORMAL
     btnCopyLink['state'] = tk.NORMAL
     opt['state'] = tk.NORMAL
-
-
-def onUploadProgress(*args):
-    print("test")
 
 
 def openLink():
@@ -60,30 +57,44 @@ def readPortalURL(filename):
     print("string value: %s" % portalURL["portal"])
     return portalURL
 
+def initConfigFile(filename):
+    data = {}
+    data['portal'] = "siasky.net"
+    with open(configFilePath, 'x') as json_data_file:
+        json.dump(data, json_data_file)
+    json_data_file.close()
 
 def callbackDropdown(*args):
     setSkylink("https://{}".format(variable.get())+upload.skylink.replace("sia://", "/"))
     #labelTest.configure(text="The selected item is {}".format(variable.get())+upload.skylink.replace("sia://", "/"))
     print(variable.get())
     portalURL["portal"] = variable.get()
-    with open('config.json', 'w') as json_data_file:
+    with open(configFilePath, 'w') as json_data_file:
         json.dump(portalURL, json_data_file)
     json_data_file.close()
 
-
 # determine if application is a script file or frozen exe
+APP_DIRNAME = "Upload2Cloud"
+if not os.path.exists(os.path.join(os.environ['APPDATA'],APP_DIRNAME)):
+    appDirectory = os.path.join(os.environ['APPDATA'], APP_DIRNAME)
+    os.mkdir(appDirectory)
+    configFilePath = os.path.join(appDirectory, "config.json")
+    initConfigFile(configFilePath)
+
 if getattr(sys, 'frozen', False):
     application_path = os.path.dirname(sys.executable)
 elif __file__:
     application_path = os.path.dirname(__file__)
 
 # Read Portal from Config File
-portalURL = readPortalURL("config.json")
+appDirectory = os.path.join(os.environ['APPDATA'], APP_DIRNAME)
+configFilePath = os.path.join(appDirectory, "config.json")
+portalURL = readPortalURL(configFilePath)
 
 # Configure Window
 icon_path = os.path.join(application_path, "upload.ico")
 root = tk.Tk()
-root.title("U2C - Ver. 0.0.2")
+root.title("U2C - Ver. 1.0.1")
 root.minsize(1000, 60)
 root.iconbitmap(icon_path)
 root.resizable(0, 0)
@@ -102,7 +113,7 @@ print(index)
 variable = tk.StringVar(root)
 variable.set(PortalList[index])
 opt = tk.OptionMenu(root, variable, *PortalList)
-opt.config(width=16, font=('Helvetica', 12))
+opt.config(width=24, font=('Helvetica', 12))
 opt.pack(side="right", padx=10)
 
 variable.trace("w", callbackDropdown)
