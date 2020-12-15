@@ -1,9 +1,9 @@
-# Sia Skynet SendTo 
+# Upload2Cloud
 powered by [Sia Skynet](https://www.siasky.net)
 
-### **Sia Skynet SendTo** is also available on the [Skynet Appstore](https://skynethub.io/_B3VrECGOHPEAFknVQwj_vWsyaX_8iIRuB_TL09cuj9uZQ/index.html#/apps/utilities).
+### **Upload2Cloud** is also available on the [Skynet Appstore](https://skynethub.io/_B3VrECGOHPEAFknVQwj_vWsyaX_8iIRuB_TL09cuj9uZQ/index.html#/apps/utilities).
 
-### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AAByGIpBvUZ1G-KzJBtoVBps7NisXpI6_-5O0tkUEzMgjA)
+### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AADa31p1ilCVKZmf6JDq2c_41h8V0KeQ-WR-NfzAspK52A)
 
 ### Demo Video
 [Skylink Video URL](https://siasky.net/fAQPMle28jWX6fTY35oL6pzd-3WqONSJY5O5I83ENUjWgw)
@@ -30,6 +30,8 @@ With Open Link your default browser will popup and open the link in a new tab.
 
 ------------------------------------------
 
-If you do not want to run the installer you can also execute just the [sendToSkynet.py](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/sendToSkynet.py). Simply download just he [sendToSkynet.py](https://github.com/cycleworm/SiaSkynet-SendTo/blob/master/sendToSkynet.py) and run it in your command line. (python 3 has to be installed)
+If you do not want to run the installer you can also execute just the [Upload2Cloud.py](https://github.com/cycleworm/Upload2Cloud/blob/master/Upload2Cloud.py). Simply download just he [Upload2Cloud.py](https://github.com/cycleworm/Upload2Cloud/blob/master/Upload2Cloud.py) and run it in your command line. (python 3 has to be installed)
 
-`python sendToSkynet.py "full path to file which you want to upload"`
+Following package have to be installed with pip: tkinter, pyperclip, webbrowser, siaskynet
+
+`python Upload2Cloud.py "full path to file which you want to upload"`
