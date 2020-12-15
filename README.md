@@ -3,7 +3,7 @@ powered by [Sia Skynet](https://www.siasky.net)
 
 ### **Upload2Cloud** is also available on the [Skynet Appstore](https://skynethub.io/_B3VrECGOHPEAFknVQwj_vWsyaX_8iIRuB_TL09cuj9uZQ/index.html#/apps/utilities).
 
-### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AADa31p1ilCVKZmf6JDq2c_41h8V0KeQ-WR-NfzAspK52A)
+### This is the direct download link to the latest full installer -> [Link](https://siasky.net/AAATv4xRdwxRD0pwdLGiQl2sC6O0RQpaGRVrJuP26n-jJg)
 
 ### Demo Video
 [Skylink Video URL](https://siasky.net/fAQPMle28jWX6fTY35oL6pzd-3WqONSJY5O5I83ENUjWgw)
