@@ -5,7 +5,6 @@ import pyperclip
 import webbrowser
 import threading
 import json
-
 import siaskynet as skynet
 
 
