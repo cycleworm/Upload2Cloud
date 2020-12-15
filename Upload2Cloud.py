@@ -8,8 +8,6 @@ import json
 import siaskynet as skynet
 
 
-#from siaskynet import Skynet
-
 PortalList = [
 "siasky.net",
 "siacdn.com",
@@ -25,10 +23,7 @@ PortalList = [
 
 def upload():
     client = skynet.SkynetClient()
-
-    print(str(sys.argv))
     upload.skylink = client.upload_file(str(sys.argv[1]))
-
     setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
     btnOpenLink['state'] = tk.NORMAL
     btnCopyLink['state'] = tk.NORMAL
@@ -65,14 +60,12 @@ def initConfigFile(filename):
 
 def callbackDropdown(*args):
     setSkylink("https://{}".format(variable.get())+upload.skylink.replace("sia://", "/"))
-    #labelTest.configure(text="The selected item is {}".format(variable.get())+upload.skylink.replace("sia://", "/"))
     print(variable.get())
     portalURL["portal"] = variable.get()
     with open(configFilePath, 'w') as json_data_file:
         json.dump(portalURL, json_data_file)
     json_data_file.close()
 
-# determine if application is a script file or frozen exe
 APP_DIRNAME = "Upload2Cloud"
 if not os.path.exists(os.path.join(os.environ['APPDATA'],APP_DIRNAME)):
     appDirectory = os.path.join(os.environ['APPDATA'], APP_DIRNAME)
@@ -80,6 +73,7 @@ if not os.path.exists(os.path.join(os.environ['APPDATA'],APP_DIRNAME)):
     configFilePath = os.path.join(appDirectory, "config.json")
     initConfigFile(configFilePath)
 
+# determine if application is a script file or frozen exe
 if getattr(sys, 'frozen', False):
     application_path = os.path.dirname(sys.executable)
 elif __file__:
@@ -100,14 +94,18 @@ root.resizable(0, 0)
 skynetColor = '#57b560'  # or use hex if you prefer
 root.configure(bg=skynetColor)
 
+# Set Dropdown to portal that is saved in config file
 index = 0
 for portal in PortalList:
     if portal == portalURL["portal"]:
-        break;
+        break
     index += 1
 
-
-print(index)
+# Add Elements to GUI
+tk.Label(root, text="Skylink:", bg=skynetColor, fg="white", font=('helvetica', 16, 'bold')).pack(padx=(10, 0), pady=10, side="left")
+skylinkEntry = tk.Entry(root, width=66, font=('helvetica', 15))
+skylinkEntry.pack(fill="x", padx=10, pady=10, side="left")
+setSkylink("uploading file...")
 
 variable = tk.StringVar(root)
 variable.set(PortalList[index])
@@ -116,28 +114,20 @@ opt.config(width=24, font=('Helvetica', 12))
 opt.pack(side="right", padx=10)
 
 variable.trace("w", callbackDropdown)
-variable.trace
 
-# Add Elements to GUI
-tk.Label(root, text="Skylink:", bg=skynetColor, fg="white", font=('helvetica', 16, 'bold')).pack(padx=(10, 0), pady=10, side="left")
-skylinkEntry = tk.Entry(root, width=66, font=('helvetica', 15))
-skylinkEntry.pack(fill="x", padx=10, pady=10, side="left")
-setSkylink("uploading file...")
-
-# Progressbar
-
-
-# Disable Buttons before as long as upload is not finished
+# Disable Buttons as long as upload is not finished
 btnOpenLink = tk.Button(root, text="Open Link", state=tk.DISABLED, command=openLink)
 btnOpenLink.pack(padx=0, side="left")
 btnCopyLink = tk.Button(root, text="Copy Link", state=tk.DISABLED, command=copyLink)
 btnCopyLink.pack(padx=10, side="left")
 opt.configure(state="disabled")
 
+# Update Tkinter to get actual window size
+root.update()
 
 # Put window in center of screen
-positionRight = int(root.winfo_screenwidth() / 2 - 1000 / 2)
-positionDown = int(root.winfo_screenheight() / 2 - 100 / 2)
+positionRight = int(root.winfo_screenwidth() / 2 - root.winfo_width() / 2)
+positionDown = int(root.winfo_screenheight() / 2 - (root.winfo_height()+30) / 2)
 root.geometry("+{}+{}".format(positionRight, positionDown))
 
 root.update_idletasks()
