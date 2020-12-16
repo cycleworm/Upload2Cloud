@@ -6,14 +6,19 @@ class Script
 {
     static public void Main()
     {
-        var project = new Project("Upload2Cloud",
+        var project = new Project("Upload2Cloud",    
                           new Dir(@"%ProgramFiles%\\Upload2Cloud",
                               //new WixSharp.File("dist\\upload.ico"),
                               //new WixSharp.File("dist\\sendToSkynet.exe"),
                               new WixSharp.Files("dist\\Upload2Cloud\\*.*")),
+
+                         
+
                               //new Dir(@"%Desktop%",
                               new Dir(@"%AppData%/Microsoft/Windows/SendTo",
-                                new ExeFileShortcut("- Upload to Skynet", Path.Combine("[INSTALLDIR]", "Upload2Cloud.exe"), arguments: "") { WorkingDirectory = "[INSTALLDIR]" })
+                                new ExeFileShortcut("- Upload to Skynet", Path.Combine("[INSTALLDIR]", "Upload2Cloud.exe"), arguments: "") { WorkingDirectory = "[INSTALLDIR]" }),
+                              new Dir(@"%LocalAppData%/Upload2Cloud",
+                                new WixSharp.File("config.json"))
                               );
 
 
@@ -25,9 +30,6 @@ class Script
         project.LicenceFile = @"Licence.rtf";
         project.Version = new Version("1.0.1"); // for the first setup file
       
-
         Compiler.BuildMsi(project);
     }
-
 }
-

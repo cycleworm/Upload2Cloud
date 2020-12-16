@@ -6,19 +6,7 @@ import webbrowser
 import threading
 import json
 import siaskynet as skynet
-
-
-PortalList = [
-"siasky.net",
-"siacdn.com",
-"skynet.tutemwesi.com",
-"skynet.developmomentum.com",
-"skydrain.net",
-"sialoop.net",
-"skyportal.xyz",
-"skynet.luxor.tech",
-"skynethub.io"
-]
+import time
 
 
 def upload():
@@ -49,14 +37,16 @@ def readPortalURL(filename):
     with open(filename) as json_data_file:
         portalURL = json.load(json_data_file)
     print("string value: %s" % portalURL["portal"])
+    json_data_file.close()
     return portalURL
 
-def initConfigFile(filename):
-    data = {}
-    data['portal'] = "siasky.net"
-    with open(configFilePath, 'x') as json_data_file:
-        json.dump(data, json_data_file)
-    json_data_file.close()
+def readActivePortals(filename):
+    with open(filename) as json_data_file:
+        data = json.load(json_data_file)
+    activePortalList = data["active_portals"]
+    return activePortalList
+
+
 
 def callbackDropdown(*args):
     setSkylink("https://{}".format(variable.get())+upload.skylink.replace("sia://", "/"))
@@ -65,24 +55,57 @@ def callbackDropdown(*args):
     with open(configFilePath, 'w') as json_data_file:
         json.dump(portalURL, json_data_file)
     json_data_file.close()
+    createFancyLink()
+
+
+def createFancyLink():
+    print("Skylink: "+upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
+    print("filename: "+sys.argv[1])
+    file_stats = os.stat(sys.argv[1])
+    print("filesize: "+str(sizeof_fmt(file_stats.st_size)))
+
+    f = open("Download/original_index.html",'r')
+    filedata = f.read()
+    f.close()
+    filedata = filedata.replace('__filename__',sys.argv[1])
+    filedata = filedata.replace('__filesize__',sizeof_fmt(file_stats.st_size))
+    filedata = filedata.replace('__skylink__',upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
+
+    f = open("Download/index.html",'w')
+    f.write(filedata)
+    f.close()
+
+    time.sleep(1)
+    client = skynet.SkynetClient()
+    print("exists? "+str(os.path.exists("./Download")))
+    skylink = client.upload_directory("./Download/")
+    print(skylink)
+
+
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
 
 APP_DIRNAME = "Upload2Cloud"
-if not os.path.exists(os.path.join(os.environ['APPDATA'],APP_DIRNAME)):
-    appDirectory = os.path.join(os.environ['APPDATA'], APP_DIRNAME)
-    os.mkdir(appDirectory)
-    configFilePath = os.path.join(appDirectory, "config.json")
-    initConfigFile(configFilePath)
 
 # determine if application is a script file or frozen exe
 if getattr(sys, 'frozen', False):
     application_path = os.path.dirname(sys.executable)
+    appDirectory = os.path.join(os.environ['LOCALAPPDATA'], APP_DIRNAME)
+    configFilePath = os.path.join(appDirectory, "config.json")
 elif __file__:
     application_path = os.path.dirname(__file__)
+    configFilePath = "config.json"
 
 # Read Portal from Config File
-appDirectory = os.path.join(os.environ['APPDATA'], APP_DIRNAME)
-configFilePath = os.path.join(appDirectory, "config.json")
+print("configpath "+configFilePath)
 portalURL = readPortalURL(configFilePath)
+
+# Read active portals from config file
+activePortalList = readActivePortals(configFilePath)
 
 # Configure Window
 icon_path = os.path.join(application_path, "upload.ico")
@@ -96,7 +119,7 @@ root.configure(bg=skynetColor)
 
 # Set Dropdown to portal that is saved in config file
 index = 0
-for portal in PortalList:
+for portal in activePortalList:
     if portal == portalURL["portal"]:
         break
     index += 1
@@ -108,8 +131,8 @@ skylinkEntry.pack(fill="x", padx=10, pady=10, side="left")
 setSkylink("uploading file...")
 
 variable = tk.StringVar(root)
-variable.set(PortalList[index])
-opt = tk.OptionMenu(root, variable, *PortalList)
+variable.set(activePortalList[index])
+opt = tk.OptionMenu(root, variable, *activePortalList)
 opt.config(width=24, font=('Helvetica', 12))
 opt.pack(side="right", padx=10)
 
