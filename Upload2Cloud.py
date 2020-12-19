@@ -46,8 +46,8 @@ def createFancyLink():
     f.close()
 
     client = skynet.SkynetClient()
-    skylink = client.upload_directory("Webtemplate")
-    print(skylink)
+    upload.skylink = client.upload_directory("Webtemplate")
+    setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
 
 def setSkylink(text):
     skylinkEntry.delete(0, "end")
@@ -107,7 +107,7 @@ activePortalList = readActivePortals(configFilePath)
 # Configure Window
 icon_path = os.path.join(application_path, "upload.ico")
 root = tk.Tk()
-root.title("U2C - Ver. 1.0.1")
+root.title("U2C - Ver. 1.0.2")
 root.minsize(1000, 60)
 root.iconbitmap(icon_path)
 root.resizable(0, 0)
@@ -142,7 +142,7 @@ btnOpenLink.pack(padx=0, side="left")
 btnCopyLink = tk.Button(root, text="Copy Link", state=tk.DISABLED, command=copyLink)
 btnCopyLink.pack(padx=10, side="left")
 btnFancyLink = tk.Button(root, text="Create Fancy Link", state=tk.DISABLED, command=createFancyLink)
-btnFancyLink.pack(padx=10, side="left")
+btnFancyLink.pack(padx=0, side="left")
 
 # Update Tkinter to get actual window size
 root.update()
