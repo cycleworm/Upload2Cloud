@@ -18,7 +18,8 @@ class Script
                               new Dir(@"%AppData%/Microsoft/Windows/SendTo",
                                 new ExeFileShortcut("- Upload to Skynet", Path.Combine("[INSTALLDIR]", "Upload2Cloud.exe"), arguments: "") { WorkingDirectory = "[INSTALLDIR]" }),
                               new Dir(@"%LocalAppData%/Upload2Cloud",
-                                new WixSharp.File("config.json"))
+                                new WixSharp.File("config.json"),
+                                new WixSharp.Files("dist\\Webtemplate\\*.*"))
                               );
 
 
@@ -28,7 +29,7 @@ class Script
         project.ControlPanelInfo.ProductIcon = "upload.ico";
         project.ControlPanelInfo.Manufacturer = "WiNXuP";
         project.LicenceFile = @"Licence.rtf";
-        project.Version = new Version("1.0.1"); // for the first setup file
+        project.Version = new Version("1.0.2"); // for the first setup file
       
         Compiler.BuildMsi(project);
     }

@@ -31,22 +31,22 @@ def copyLink():
 def createFancyLink():
     file_stats = os.stat(sys.argv[1])
     file_size = sizeof_fmt(file_stats.st_size)
-    filename = sys.argv[1]
+    filename = os.path.basename(sys.argv[1])
     skylink = upload.skylink.replace("sia://", "https://" + variable.get() + "/")
 
-    f = open("Webtemplate/original_index.html", 'r')
+    f = open(web_template_path+"Webtemplate/original_index.html", 'r')
     web_template = f.read()
     f.close()
     web_template = web_template.replace('__filename__', filename)
     web_template = web_template.replace('__filesize__', file_size)
     web_template = web_template.replace('__skylink__', skylink)
 
-    f = open("Webtemplate/index.html", 'w')
+    f = open(web_template_path+"Webtemplate/index.html", 'w')
     f.write(web_template)
     f.close()
 
     client = skynet.SkynetClient()
-    upload.skylink = client.upload_directory("Webtemplate")
+    upload.skylink = client.upload_directory(web_template_path+"Webtemplate")
     setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
 
 def setSkylink(text):
@@ -93,9 +93,12 @@ if getattr(sys, 'frozen', False):
     application_path = os.path.dirname(sys.executable)
     appDirectory = os.path.join(os.environ['LOCALAPPDATA'], APP_DIRNAME)
     configFilePath = os.path.join(appDirectory, "config.json")
+    web_template_path = appDirectory+"/"
 elif __file__:
     application_path = os.path.dirname(__file__)
     configFilePath = "config.json"
+    web_template_path = "Webtemplate/"
+
 
 # Read Portal from Config File
 print("configpath "+configFilePath)
@@ -154,6 +157,11 @@ root.geometry("+{}+{}".format(positionRight, positionDown))
 
 root.update_idletasks()
 root.update()
+
+print('sys.argv[0] =', sys.argv[0])
+pathname = os.path.dirname(sys.argv[0])
+print('path =', pathname)
+print('full path =', os.path.abspath(pathname))
 
 # Start upload in separate thread
 thread = threading.Thread(target=upload)
