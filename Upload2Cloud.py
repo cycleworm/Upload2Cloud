@@ -6,7 +6,6 @@ import webbrowser
 import threading
 import json
 import siaskynet as skynet
-import time
 
 
 def upload():
@@ -15,6 +14,7 @@ def upload():
     setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
     btnOpenLink['state'] = tk.NORMAL
     btnCopyLink['state'] = tk.NORMAL
+    btnFancyLink['state'] = tk.NORMAL
     opt['state'] = tk.NORMAL
 
 
@@ -28,6 +28,27 @@ def copyLink():
     pyperclip.copy(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
 
 
+def createFancyLink():
+    file_stats = os.stat(sys.argv[1])
+    file_size = sizeof_fmt(file_stats.st_size)
+    filename = sys.argv[1]
+    skylink = upload.skylink.replace("sia://", "https://" + variable.get() + "/")
+
+    f = open("Webtemplate/original_index.html", 'r')
+    web_template = f.read()
+    f.close()
+    web_template = web_template.replace('__filename__', filename)
+    web_template = web_template.replace('__filesize__', file_size)
+    web_template = web_template.replace('__skylink__', skylink)
+
+    f = open("Webtemplate/index.html", 'w')
+    f.write(web_template)
+    f.close()
+
+    client = skynet.SkynetClient()
+    skylink = client.upload_directory("Webtemplate")
+    print(skylink)
+
 def setSkylink(text):
     skylinkEntry.delete(0, "end")
     skylinkEntry.insert(0, text)
@@ -39,6 +60,7 @@ def readPortalURL(filename):
     print("string value: %s" % portalURL["portal"])
     json_data_file.close()
     return portalURL
+
 
 def readActivePortals(filename):
     with open(filename) as json_data_file:
@@ -55,31 +77,6 @@ def callbackDropdown(*args):
     with open(configFilePath, 'w') as json_data_file:
         json.dump(portalURL, json_data_file)
     json_data_file.close()
-    createFancyLink()
-
-
-def createFancyLink():
-    print("Skylink: "+upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
-    print("filename: "+sys.argv[1])
-    file_stats = os.stat(sys.argv[1])
-    print("filesize: "+str(sizeof_fmt(file_stats.st_size)))
-
-    f = open("Download/original_index.html",'r')
-    filedata = f.read()
-    f.close()
-    filedata = filedata.replace('__filename__',sys.argv[1])
-    filedata = filedata.replace('__filesize__',sizeof_fmt(file_stats.st_size))
-    filedata = filedata.replace('__skylink__',upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
-
-    f = open("Download/index.html",'w')
-    f.write(filedata)
-    f.close()
-
-    time.sleep(1)
-    client = skynet.SkynetClient()
-    print("exists? "+str(os.path.exists("./Download")))
-    skylink = client.upload_directory("./Download/")
-    print(skylink)
 
 
 def sizeof_fmt(num, suffix='B'):
@@ -135,6 +132,7 @@ variable.set(activePortalList[index])
 opt = tk.OptionMenu(root, variable, *activePortalList)
 opt.config(width=24, font=('Helvetica', 12))
 opt.pack(side="right", padx=10)
+opt.configure(state="disabled")
 
 variable.trace("w", callbackDropdown)
 
@@ -143,7 +141,8 @@ btnOpenLink = tk.Button(root, text="Open Link", state=tk.DISABLED, command=openL
 btnOpenLink.pack(padx=0, side="left")
 btnCopyLink = tk.Button(root, text="Copy Link", state=tk.DISABLED, command=copyLink)
 btnCopyLink.pack(padx=10, side="left")
-opt.configure(state="disabled")
+btnFancyLink = tk.Button(root, text="Create Fancy Link", state=tk.DISABLED, command=createFancyLink)
+btnFancyLink.pack(padx=10, side="left")
 
 # Update Tkinter to get actual window size
 root.update()
