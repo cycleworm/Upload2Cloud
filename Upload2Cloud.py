@@ -18,7 +18,6 @@ def upload():
 
     btnOpenLink['state'] = tk.NORMAL
     btnCopyLink['state'] = tk.NORMAL
-    btnFancyLink['state'] = tk.NORMAL
     opt['state'] = tk.NORMAL
     chkFancyLink['state'] = tk.NORMAL
 
@@ -38,14 +37,6 @@ def threadCreateFancyLink():
 
 
 def createFancyLink():
-    btnOpenLink['state'] = tk.DISABLED
-    btnCopyLink['state'] = tk.DISABLED
-    btnFancyLink['state'] = tk.DISABLED
-    opt['state'] = tk.DISABLED
-    chkFancyLink['state'] = tk.DISABLED
-
-    setSkylink("creating fancy link...")
-
     with open(configFilePath, "r") as json_data_file:
         data = json.load(json_data_file)
 
@@ -55,31 +46,40 @@ def createFancyLink():
         json.dump(data, jsonFile)
     json_data_file.close()
 
-    file_stats = os.stat(sys.argv[1])
-    file_size = sizeof_fmt(file_stats.st_size)
-    filename = os.path.basename(sys.argv[1])
-    upload.skylink = upload.skylink.replace("sia://", "https://" + variable.get() + "/")
+    if(fancyState.get()==True):
+        btnOpenLink['state'] = tk.DISABLED
+        btnCopyLink['state'] = tk.DISABLED
+        opt['state'] = tk.DISABLED
+        chkFancyLink['state'] = tk.DISABLED
 
-    f = open(web_template_path+"Webtemplate/original_index.html", 'r')
-    web_template = f.read()
-    f.close()
-    web_template = web_template.replace('__filename__', filename)
-    web_template = web_template.replace('__filesize__', file_size)
-    web_template = web_template.replace('__skylink__', upload.skylink)
+        setSkylink("creating fancy link...")
 
-    f = open(web_template_path+"Webtemplate/index.html", 'w')
-    f.write(web_template)
-    f.close()
 
-    client = skynet.SkynetClient()
-    upload.skylink = client.upload_directory(web_template_path+"Webtemplate")
-    setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
 
-    btnOpenLink['state'] = tk.NORMAL
-    btnCopyLink['state'] = tk.NORMAL
-    btnFancyLink['state'] = tk.NORMAL
-    opt['state'] = tk.NORMAL
-    chkFancyLink['state'] = tk.NORMAL
+        file_stats = os.stat(sys.argv[1])
+        file_size = sizeof_fmt(file_stats.st_size)
+        filename = os.path.basename(sys.argv[1])
+        upload.skylink = upload.skylink.replace("sia://", "https://" + variable.get() + "/")
+
+        f = open(web_template_path+"Webtemplate/original_index.html", 'r')
+        web_template = f.read()
+        f.close()
+        web_template = web_template.replace('__filename__', filename)
+        web_template = web_template.replace('__filesize__', file_size)
+        web_template = web_template.replace('__skylink__', upload.skylink)
+
+        f = open(web_template_path+"Webtemplate/index.html", 'w')
+        f.write(web_template)
+        f.close()
+
+        client = skynet.SkynetClient()
+        upload.skylink = client.upload_directory(web_template_path+"Webtemplate")
+        setSkylink(upload.skylink.replace("sia://", "https://"+variable.get()+"/"))
+
+        btnOpenLink['state'] = tk.NORMAL
+        btnCopyLink['state'] = tk.NORMAL
+        opt['state'] = tk.NORMAL
+        chkFancyLink['state'] = tk.NORMAL
 
 
 def setSkylink(text):
@@ -141,7 +141,6 @@ elif __file__:
 
 
 # Read Portal from Config File
-print("configpath "+configFilePath)
 portalURL = readPortalURL(configFilePath)
 
 # Read active portals from config file
@@ -184,8 +183,6 @@ btnOpenLink = tk.Button(root, text="Open Link", state=tk.DISABLED, command=openL
 btnOpenLink.pack(padx=0, side="left")
 btnCopyLink = tk.Button(root, text="Copy Link", state=tk.DISABLED, command=copyLink)
 btnCopyLink.pack(padx=10, side="left")
-btnFancyLink = tk.Button(root, text="Create Fancy Link", state=tk.DISABLED, command=threadCreateFancyLink)
-btnFancyLink.pack(padx=0, side="left")
 fancyState = tk.BooleanVar()
 chkFancyLink = tk.Checkbutton(root, text="Fancy Link", variable=fancyState, state=tk.DISABLED, command=threadCreateFancyLink)
 chkFancyLink.pack(padx=10, side="left")
@@ -202,11 +199,6 @@ root.geometry("+{}+{}".format(positionRight, positionDown))
 
 root.update_idletasks()
 root.update()
-
-print('sys.argv[0] =', sys.argv[0])
-pathname = os.path.dirname(sys.argv[0])
-print('path =', pathname)
-print('full path =', os.path.abspath(pathname))
 
 # Start upload in separate thread
 thread = threading.Thread(target=upload)
